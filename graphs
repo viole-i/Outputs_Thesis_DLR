@@ -1,0 +1,19 @@
+import pandas as pd
+
+res = pd.read_csv('loads.csv', index_col = 0)
+
+def plotTS(data, periodlength, vmin, vmax, label = 'T [°C]'):
+    fig, axes = plt.subplots(figsize = [6, 2], dpi = 100, nrows = 1, ncols = 1)
+    stacked, timeindex = tsam.unstackToPeriods(copy.deepcopy(data), periodlength)
+    cax = axes.imshow(stacked.values.T, interpolation = 'nearest', vmin = vmin, vmax = vmax)
+    axes.set_aspect('auto')  
+    axes.set_ylabel('Hour')
+    plt.xlabel('Day')
+
+    fig.subplots_adjust(right = 1.2)
+    cbar=plt.colorbar(cax)    
+    cbar.set_label(label)
+    
+aggr=[]
+
+plotTS(raw, 24, vmin = raw.min(), vmax = raw.max(), label = 'raw')
